@@ -85,9 +85,9 @@ discovery.ec2.tag.ESCluster: %(cluster)s
 #
 # --------------------------------- Scripting -----------------------------------
 #
-script.engine.groovy.inline.search: true
-script.indexed: true
-script.inline: true
+# script.engine.groovy.inline.search: true
+# script.indexed: true
+# script.inline: true
 #
 # ---------------------------------- Gateway -----------------------------------
 #
