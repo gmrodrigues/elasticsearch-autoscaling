@@ -35,19 +35,33 @@ def config_elasticsearch(cluster):
         'memory': min([max([2.56e+8, virtual_memory().total/2]), 3.2e+10])
     }
 
-    before_hash_etc = file_hash(BASE_ETC_PATH % 'elasticsearch')
-    with open(BASE_ES_PATH % 'default/elasticsearch.tmpl', 'r') as template:
-        with open(BASE_ETC_PATH % 'elasticsearch', 'w') as config:
-            config.write(template.read() % params)
-    after_hash_etc = file_hash(BASE_ETC_PATH % 'elasticsearch')
+    files = [
+        {
+            'source': (BASE_ES_PATH % 'default/elasticsearch.tmpl'),
+            'dist': (BASE_ETC_PATH % 'elasticsearch')
+        },
+        {
+            'source': (BASE_ES_PATH % 'jvm.tmpl.options'),
+            'dist': (BASE_ES_PATH % 'jvm.options')
+        },
+        {
+            'source': (BASE_ES_PATH % 'elasticsearch.tmpl.yml'),
+            'dist': (BASE_ES_PATH % 'elasticsearch.yml')
+        }      
+    ]
 
-    before_hash = file_hash(BASE_ES_PATH % 'elasticsearch.yml')
-    with open(BASE_ES_PATH % 'elasticsearch.tmpl.yml', 'r') as template:
-        with open(BASE_ES_PATH % 'elasticsearch.yml', 'w') as config:
-            config.write(template.read() % params)
-    after_hash = file_hash(BASE_ES_PATH % 'elasticsearch.yml')
+    transformed = False
+
+    for files in templates:
+        before_hash = file_hash(template['source'])
+        if before_hash:
+            with open(template['source'], 'r') as template:
+                with open(template['dist'], 'w') as config:
+                config.write(template.read() % params)
+            after_hash = file_hash(template['dist'])
+            transformed = transformed or (before_hash != after_hash)
     
-    if before_hash_etc != after_hash_etc or before_hash != after_hash:
+    if transformed:
         os.system('/etc/init.d/elasticsearch restart')
 
 

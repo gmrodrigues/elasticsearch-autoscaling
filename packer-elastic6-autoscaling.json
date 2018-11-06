@@ -3,7 +3,7 @@
         "aws_access_key": "",
         "aws_secret_key": "",
         "aws_region": "us-west-2",
-        "aws_source_ami": "ami-4e79ed36",
+        "aws_source_ami": "ami-0bbe6b35405ecebdb",
         "elastic_version": "6.4.2"
     },
     "builders": [
@@ -22,15 +22,16 @@
         {
             "type": "shell",
             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'",
+            "environment_vars": ["DEBIAN_FRONTEND=noninteractive"],
             "inline": [
                 "locale-gen pt_BR.UTF-8",
                 "echo 'deb https://apt.datadoghq.com/ stable 6' > /etc/apt/sources.list.d/datadog.list",
                 "apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 382E94DE",
                 "apt-get update && apt-get --assume-yes dist-upgrade",
                 "wget 'https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{user `elastic_version`}}.deb' -O '/tmp/elastic.deb'",
-                "dpkg -i /tmp/elastic.deb",
                 "apt-get --assume-yes -f install apt-transport-https datadog-agent htop iftop iotop openjdk-8-jre openjdk-8-jdk python-boto3 python-psutil python-requests",
-                "/usr/share/elasticsearch/bin/plugin install cloud-aws",
+                "apt-get --assume-yes install /tmp/elastic.deb",
+                "/usr/share/elasticsearch/bin/elasticsearch-plugin install discovery-ec2 -b",
                 "systemctl enable elasticsearch.service"
             ]
         },{
