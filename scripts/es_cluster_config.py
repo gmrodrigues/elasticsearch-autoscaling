@@ -52,13 +52,13 @@ def config_elasticsearch(cluster):
 
     transformed = False
 
-    for files in templates:
-        before_hash = file_hash(template['source'])
+    for f in files:
+        before_hash = file_hash(f['source'])
         if before_hash:
-            with open(template['source'], 'r') as template:
-                with open(template['dist'], 'w') as config:
-                config.write(template.read() % params)
-            after_hash = file_hash(template['dist'])
+            with open(f['source'], 'r') as template:
+                with open(f['dist'], 'w') as config:
+                    config.write(template.read() % params)
+            after_hash = file_hash(f['dist'])
             transformed = transformed or (before_hash != after_hash)
     
     if transformed:
