@@ -41,7 +41,7 @@ Parameters:
   InstanceType:
     Description: Instance type to use when Instance Lifecycle is "normal".
     Type: String
-    Default: t2.nano
+    Default: t2.micro
     AllowedValues: [t2.nano, t2.micro, m3.medium, m1.small, m1.medium]
 
   KeyName:
