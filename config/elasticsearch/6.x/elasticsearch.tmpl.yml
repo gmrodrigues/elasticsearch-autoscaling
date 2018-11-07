@@ -12,14 +12,14 @@
 #
 # ----------------------------------- Cloud ------------------------------------
 #
-cloud.aws.region: %(region)s
+cluster.routing.allocation.awareness.attributes: %(region)s
 cloud.node.auto_attributes: true
 #
 # ---------------------------------- Cluster -----------------------------------
 #
 # Use a descriptive name for your cluster:
 #
-#cluster.name: my-application
+cluster.name: %(cluster)s
 #
 # ------------------------------------ Node ------------------------------------
 #
@@ -68,7 +68,7 @@ network.host: 0.0.0.0
 # --------------------------------- Discovery ----------------------------------
 #
 discovery.zen.hosts_provider: ec2
-discovery.node_cache_time: 30s
+discovery.ec2.node_cache_time: 30s
 discovery.ec2.tag.ESCluster: %(cluster)s
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
