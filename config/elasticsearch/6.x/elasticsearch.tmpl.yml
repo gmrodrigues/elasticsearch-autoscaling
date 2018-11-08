@@ -12,7 +12,7 @@
 #
 # ----------------------------------- Cloud ------------------------------------
 #
-cluster.routing.allocation.awareness.attributes: %(region)s
+# cluster.routing.allocation.awareness.attributes: %(region)s
 cloud.node.auto_attributes: true
 #
 # ---------------------------------- Cluster -----------------------------------
