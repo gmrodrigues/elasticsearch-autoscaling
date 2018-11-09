@@ -133,6 +133,10 @@ Resources:
           InstanceProtocol: "HTTP"
           LoadBalancerPort: "9200"
           Protocol: "HTTP"
+        - InstancePort: "9300"
+          InstanceProtocol: "TCP"
+          LoadBalancerPort: "9300"
+          Protocol: "TCP"
       Scheme: "internal"
       SecurityGroups:
         - !Ref SecurityGroup
